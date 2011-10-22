@@ -97,16 +97,6 @@ set list!
 " function.
 map <leader>\dontstealmymapsmakegreen :w\|:call MakeGreen('spec')<cr>
 
-function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    :w
-    :silent !echo;echo;echo;echo;echo
-    if filereadable("script/test")
-        exec ":!script/test " . a:filename
-    else
-        exec ":!bundle exec rspec " . a:filename
-    end
-endfunction
 
 function! SetTestFile()
     " Set the spec file that tests will be run for.
@@ -114,11 +104,11 @@ function! SetTestFile()
 endfunction
 
 function! SetRspec1()
-  let t:st_rspec_command="spec"
+  let t:st_rspec_command="bundle exec spec"
 endfunction
 
 function! SetRspec2()
-  let t:st_rspec_command="rspec"
+  let t:st_rspec_command="bundle exec rspec"
 endfunction
 
 function! RunTests(filename)
