@@ -57,6 +57,12 @@ syntax on
 
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
 
+"CommandT
+map <leader>ga :CommandTFlush<CR>\|:CommandT<CR>
+map <leader>gv :CommandTFlush<CR>\|:CommandT app/views<CR>
+map <leader>gc :CommandTFlush<CR>\|:CommandT app/controllers<CR>
+map <leader>gm :CommandTFlush<CR>\|:CommandT app/models<CR>
+
 " From http://biodegradablegeek.com/2007/12/using-vim-as-a-complete-ruby-on-rails-ide/
 set cf  " Enable error files & error jumping.
 set clipboard+=unnamed  " Yanks go on clipboard instead.
@@ -70,7 +76,7 @@ set laststatus=2
 "My own keybindings
 map <leader>gd :GitDiff<CR>
 map <leader>gs :GitStatus<CR>
-map <leader>gc :GitCommit<CR>
+"map <leader>gc :GitCommit<CR>
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 map <leader>f :set nofu<CR>:set lines=100 columns=400 fu<CR>
@@ -104,21 +110,35 @@ function! SetTestFile()
 endfunction
 
 function! SetRspec1()
-  let t:st_rspec_command="bundle exec spec"
+  let t:st_rspec_command="spec"
 endfunction
 
 function! SetRspec2()
-  let t:st_rspec_command="bundle exec rspec"
+  let t:st_rspec_command="rspec"
+endfunction
+
+function! SetBundle()
+  let t:st_bundle_command="bundle exec"
+endfunction
+
+function! SetNoBundle()
+  let t:st_bundle_command=""
 endfunction
 
 function! RunTests(filename)
   " Write the file and run tests for the given filename
   :w
   :silent !echo;echo;echo;echo;echo
+
+  if !exists("t:st_bundle_command")
+    call SetBundle()
+  endif
+
   if !exists("t:st_rspec_command")
     call SetRspec2()
   endif
-  exec ":!" . t:st_rspec_command . " " . a:filename
+
+  exec ":!" . t:st_bundle_command . " " . t:st_rspec_command . " " . a:filename
 endfunction
 
 function! RunTestFile(...)
@@ -145,6 +165,8 @@ endfunction
 
 command! Rspec1 :call SetRspec1()
 command! Rspec2 :call SetRspec2()
+command! NoBundle :call SetNoBundle()
+command! WithBundle :call SetNobundle()
 
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
@@ -156,5 +178,10 @@ map <leader>c :w\|:!bundle exec cucumber -p wip -r features %<cr>
 set statusline=%f\ %(%m%r%h\ %)%([%Y]%)%=%<%-20{getcwd()}\ [b%n]\ %l/%L\ ~\ %p%%\ \
 colorscheme tir_black
 set t_Co=256
+
+"Colour column
+set colorcolumn=80
+map <leader>z :set colorcolumn=80
+
 map <leader>H :%s/:\(\w\+\) =>/\1:<CR>``
 map <leader>, :b#<CR>
