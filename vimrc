@@ -65,7 +65,7 @@ map <leader>gm :CommandTFlush<CR>\|:CommandT app/models<CR>
 
 " From http://biodegradablegeek.com/2007/12/using-vim-as-a-complete-ruby-on-rails-ide/
 set cf  " Enable error files & error jumping.
-set clipboard+=unnamed  " Yanks go on clipboard instead.
+"set clipboard+=unnamed  " Yanks go on clipboard instead.
 set autowrite  " Writes on make/shell commands
 set showmatch
 set laststatus=2
@@ -87,7 +87,9 @@ map <leader>pc :ColorHEX<CR>
 au BufNewFile,BufRead *.as set filetype=actionscript
 au BufNewFile,BufRead *.ru set filetype=ruby
 au BufNewFile,BufRead Gemfile set filetype=ruby
+au BufNewFile,BufRead Vagrantfile set filetype=ruby
 au BufNewFile,BufRead *.md set filetype=mkd
+au BufRead,BufNewFile *.scss set filetype=scss
 
 " Understand :W as :w
 command! W :w
@@ -166,7 +168,7 @@ endfunction
 command! Rspec1 :call SetRspec1()
 command! Rspec2 :call SetRspec2()
 command! NoBundle :call SetNoBundle()
-command! WithBundle :call SetNobundle()
+command! WithBundle :call SetNoBundle()
 
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
@@ -181,7 +183,7 @@ set t_Co=256
 
 "Colour column
 set colorcolumn=80
-map <leader>z :set colorcolumn=80
+map <leader>z :set colorcolumn=80<CR>
 
 map <leader>H :%s/:\(\w\+\) =>/\1:<CR>``
 map <leader>, :b#<CR>

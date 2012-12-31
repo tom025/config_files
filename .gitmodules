@@ -55,3 +55,6 @@
 [submodule "vim/bundle/vim-cloujure"]
 	path = vim/bundle/vim-cloujure
 	url = https://github.com/vim-scripts/VimClojure.git
+[submodule "vim/syntax/scss-syntax.vim"]
+	path = vim/syntax/scss-syntax.vim
+	url = https://github.com/cakebaker/scss-syntax.vim.git
